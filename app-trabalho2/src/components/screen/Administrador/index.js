@@ -12,6 +12,8 @@ export default function Home () {
     const [infoReceita, setInfoReceita] = useState([]);
     const [idExcluir, setIdExcluir] = useState();
 
+
+    //Faz o GET na API com a descrição que o administrador passou
     const getReceita = async () => {
         try{
             const {data} = await api.get(`${input}`)
@@ -21,6 +23,7 @@ export default function Home () {
         }
     }
 
+    //Salva a receita no sqlite quando clicado no botão de add
     function saveReceita (item) {
     
     Receitas.create({title:item.title, servings:item.servings, ingredients:item.ingredients, instructions:item.instructions})
@@ -28,9 +31,10 @@ export default function Home () {
         .catch( err => console.log(err))                                                                            
     }
 
+    //Faz um delete no sqlite utilizando o ID como referencia
     const  deleteReceita = (id) => {
         Receitas.remove(id)
-            .then( updated => console.log('Receita removida:' + updated))
+            .then( update => console.log('Receita removida:' + update))
             .catch( err => console.log(err))
     }
 
@@ -78,7 +82,6 @@ export default function Home () {
                 renderItem={({item}) => {        
                     return(
                         <View style={styles.lista}>
-                            <Text style={styles.titleReceita}>ID:{item.id}</Text>
                             <Text style={styles.titleReceita}>{item.title}</Text>
                             <Text style={styles.servings}>{item.servings}</Text>
                             <Text style={styles.descriptions}>{item.ingredients}</Text>

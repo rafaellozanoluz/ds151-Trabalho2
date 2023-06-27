@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//Cria a conexão com a API via axios
 const api = axios.create({
     method: 'GET',
     baseURL: 'https://api.api-ninjas.com/v1/recipe?query=',

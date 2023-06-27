@@ -7,7 +7,7 @@ const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 :
 
 export default function Login ({navigation}) {
     
-    
+    //Verifica quais metódos estão disponíveis para autenticação
     async function verifyAvaibleAuthentication(){
         const compatible = await LocalAuthentication.hasHardwareAsync();
 
@@ -15,10 +15,13 @@ export default function Login ({navigation}) {
         const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
     }
 
+    //Se a autenticação é true chama a página do administrador, se é false apresenta mensagem de alerta
     function callAdministrador (auth){
         {auth ? navigation.navigate('Administrador') : Alert.alert("Login", "Usuário não logado")}
     }
 
+
+    //Faz a autenticação e chama a função callAdministrador
     async function handleAuthentication(){
         const isFaceEnrolled = await LocalAuthentication.isEnrolledAsync
         if(!isFaceEnrolled){

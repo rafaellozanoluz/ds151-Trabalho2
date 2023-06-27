@@ -12,6 +12,8 @@ export default function Usuario (){
     const [input, setInput] = useState('');
     const [newTitle, setNewTitle] = useState('');
     
+
+    //Pega os dados do banco e joga na const infoReceita
     function dataReceita(){
         Receitas.all()
             .then(
@@ -19,12 +21,14 @@ export default function Usuario (){
             )
     }
 
+    //Quando usuário clica no botão de alterar pega a const newTitle e altera o ID fornecido no banco
     function alterReceita(){
         Receitas.update(input,newTitle)
             .then(dataReceita(),)
             .catch( err => console.log(err))
     }
 
+    //Faz refresh na tela 
     useEffect(() => {
         dataReceita();
       });
@@ -57,6 +61,7 @@ export default function Usuario (){
                         onChangeText={setInput}
             />
 
+            
             <TouchableOpacity style={styles.button} onPress={() => {alterReceita(input);}}>
                 <Icon name="autorenew" size={25} color="#FFF"></Icon>
             </TouchableOpacity>

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from "./src/components/screen/Home";
 import Administrador from "./src/components/screen/Administrador"
 import Usuario from "./src/components/screen/Usuario";
 import Login from "./src/components/screen/Login";

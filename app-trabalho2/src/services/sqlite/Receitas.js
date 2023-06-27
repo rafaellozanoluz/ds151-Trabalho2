@@ -5,10 +5,7 @@ import db from "./SQLiteDatabase";
  * - Executa sempre, mas só cria a tabela caso não exista (primeira execução)
  */
 db.transaction((tx) => {
-  //<<<<<<<<<<<<<<<<<<<<<<<< USE ISSO APENAS DURANTE OS TESTES!!! >>>>>>>>>>>>>>>>>>>>>>>
-  tx.executeSql("DROP TABLE receitas;");
-  //<<<<<<<<<<<<<<<<<<<<<<<< USE ISSO APENAS DURANTE OS TESTES!!! >>>>>>>>>>>>>>>>>>>>>>>
-
+  
   tx.executeSql(
     "CREATE TABLE IF NOT EXISTS receitas (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, servings TEXT, ingredients TEXT, instructions TEXT);"
   );
