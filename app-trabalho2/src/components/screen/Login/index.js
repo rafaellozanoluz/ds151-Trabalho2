@@ -1,7 +1,39 @@
-import React from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image} from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, StatusBar, Alert} from "react-native";
+import * as LocalAuthentication from 'expo-local-authentication';
 
-export default function Login () {
+const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
+
+
+export default function Login ({navigation}) {
+    
+    
+    async function verifyAvaibleAuthentication(){
+        const compatible = await LocalAuthentication.hasHardwareAsync();
+
+
+        const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
+    }
+
+    function callAdministrador (auth){
+        {auth ? navigation.navigate('Administrador') : Alert.alert("Login", "Usuário não logado")}
+    }
+
+    async function handleAuthentication(){
+        const isFaceEnrolled = await LocalAuthentication.isEnrolledAsync
+        if(!isFaceEnrolled){
+            return Alert.alert("Login", "Não há nenhuma biometria cadastrada.")
+        }
+
+        const auth = await LocalAuthentication.authenticateAsync({
+            promptMessage: "Login realizado",
+            fallbacklabel: "Biometria não reconhecida",
+        })
+
+        
+        await callAdministrador(auth.success);
+    }
+    
     return(
         <View style={styles.container}>
 
@@ -11,24 +43,22 @@ export default function Login () {
 
             <View style={styles.box}>
 
-                    <Text style={styles.label}>Nome do usuário</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite seu username"
-                    />
+                    <Text style={styles.label}>Usuário padrão</Text>
+                    
+                    <TouchableOpacity style={styles.button} onPress={ () => navigation.navigate('Usuario')}>
+                        <Text style={styles.titleButton}>Entrar</Text>
+                    </TouchableOpacity>
 
-                    <Text style={styles.label}>Senha</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite sua senha"
-                        secureTextEntry={true}
-                    />
-
-                    <TouchableOpacity style={styles.button} >
+                    <Text style={styles.label}>Usuário administrador</Text>
+                    
+                    
+                    <TouchableOpacity style={styles.button} onPress={() => {handleAuthentication();}}>
                         <Text style={styles.titleButton}>Entrar</Text>
                     </TouchableOpacity>
 
             </View>
+
+            
 
             <View style={styles.boxImage}>
                 <Image style={styles.image} source={require('../../images/LOGO_UFPR.jpg')} />
@@ -47,7 +77,7 @@ const styles = StyleSheet.create({
         paddingTop: 40,
         paddingStart: 15,
         paddingEnd: 15,
-        marginTop: -24,
+        marginTop: statusBarHeight + 30,
         marginStart: 40,
         marginEnd: 40,
         paddingBottom: 40,
@@ -78,17 +108,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingStart: 15,
         paddingEnd: 15,
+        marginTop: 50,
 
-    },
-
-    input: {
-        height: 40,
-        width:180,
-        margin: 12,
-        borderWidth: 1,
-        paddingStart: 15,
-        paddingEnd: 15,
-        borderRadius: 10,
     },
 
     button: {
@@ -100,7 +121,8 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         paddingStart: 10,
-        paddingEnd: 10,        
+        paddingEnd: 10,
+        marginTop: 20,        
     },
 
     titleButton: {
